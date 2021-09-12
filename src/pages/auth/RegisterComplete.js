@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../../firebase';
 import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createOrUpdateUser } from '../../functions/auth';
 
 const RegisterComplete = ({ history }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { user } = useSelector((state) => ({ ...state }));
+    // const { user } = useSelector((state) => ({ ...state }));
 
     let dispatch = useDispatch();
 
@@ -32,7 +32,7 @@ const RegisterComplete = ({ history }) => {
         try {
             const result = await auth.signInWithEmailLink(
                 email,
-                window.location.href
+                window.location.href,
             );
             // console.log(result);
             if (result.user.emailVerified) {
@@ -71,32 +71,32 @@ const RegisterComplete = ({ history }) => {
     const completeRegistrationForm = () => (
         <form onSubmit={handleSubmit}>
             <input
-                type="email"
-                name="email"
+                type='email'
+                name='email'
                 value={email}
-                className="form-control"
+                className='form-control'
                 disabled
             />
             <br />
             <input
-                type="password"
-                name="password"
+                type='password'
+                name='password'
                 value={password}
-                className="form-control"
+                className='form-control'
                 onChange={(e) => setPassword(e.target.value)}
                 autoFocus
-                placeholder="Enter your password"
+                placeholder='Enter your password'
             />
-            <button type="submit" className="btn btn-raised">
+            <button type='submit' className='btn btn-raised'>
                 Complete Registration
             </button>
         </form>
     );
 
     return (
-        <div className="container p-5">
-            <div className="row">
-                <div className="col-md-6 offset-md-3">
+        <div className='container p-5'>
+            <div className='row'>
+                <div className='col-md-6 offset-md-3'>
                     <h4>Register Complete</h4>
                     {completeRegistrationForm()}
                 </div>
