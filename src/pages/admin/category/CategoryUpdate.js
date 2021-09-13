@@ -46,7 +46,7 @@ const CategoryUpdate = ({ history, match }) => {
                     {loading ? (
                         <h4 className="text-danger">Loading...</h4>
                     ) : (
-                        <h4>Update category</h4>
+                        <h4>Update Category</h4>
                     )}
                     <CategoryForm
                         handleSubmit={handleSubmit}

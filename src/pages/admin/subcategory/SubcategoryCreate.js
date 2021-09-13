@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import AdminNav from '../../../components/nav/AdminNav';
-import {
-    createCategory,
-    getCategories,
-    removeCategory,
-} from '../../../functions/category';
 import { useSelector } from 'react-redux';
+import { getCategories } from '../../../functions/category';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import CategoryForm from '../../../components/forms/CategoryForm';
 import LocalSearch from '../../../components/forms/LocalSearch';
+import {
+    createSubcategory,
+    getSubcategories,
+    removeSubcategory,
+} from '../../../functions/subcategory';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
-const CategoryCreate = () => {
+const SubcategoryCreate = () => {
     const [name, setName] = useState('');
     const [loading, setLoading] = useState(false);
     const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState('');
+    const [subcategories, setSubcategories] = useState([]);
 
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -23,20 +26,26 @@ const CategoryCreate = () => {
 
     useEffect(() => {
         loadCategories();
+        loadSubcategories();
     }, []);
 
     const loadCategories = () =>
         getCategories().then((category) => setCategories(category.data));
 
+    const loadSubcategories = () =>
+        getSubcategories().then((subcategory) =>
+            setSubcategories(subcategory.data)
+        );
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setLoading(true);
-        createCategory({ name }, user.token)
+        createSubcategory({ name, parent: category }, user.token)
             .then((res) => {
                 setLoading(false);
                 setName('');
                 toast.success(`${res.data.name} has been created`);
-                loadCategories();
+                loadSubcategories();
             })
             .catch((err) => {
                 setLoading(false);
@@ -47,11 +56,11 @@ const CategoryCreate = () => {
     const handleRemove = async (slug) => {
         if (window.confirm('Are you sure you want to remove this?')) {
             setLoading(true);
-            removeCategory(slug, user.token)
+            removeSubcategory(slug, user.token)
                 .then((res) => {
                     setLoading(false);
                     toast.success(res.data);
-                    loadCategories();
+                    loadSubcategories();
                 })
                 .catch((err) => {
                     setLoading(false);
@@ -74,8 +83,28 @@ const CategoryCreate = () => {
                     {loading ? (
                         <h4 className="text-danger">Loading...</h4>
                     ) : (
-                        <h4>Create Category</h4>
+                        <h4>Create Subcategory</h4>
                     )}
+
+                    <div className="form-group">
+                        <label>Parent Category</label>
+                        <select
+                            name="category"
+                            className="form-control"
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <option>Select Category</option>
+                            {categories.length > 0 &&
+                                categories.map((category) => (
+                                    <option
+                                        key={category._id}
+                                        value={category._id}
+                                    >
+                                        {category.name}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
 
                     <CategoryForm
                         handleSubmit={handleSubmit}
@@ -83,25 +112,26 @@ const CategoryCreate = () => {
                         setName={setName}
                     />
                     <br />
-                    <LocalSearch
-                        keyword={keyword}
-                        setKeyword={setKeyword}
-                    />
-                    {categories
+                    <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+                    {subcategories
                         .filter(searchCategories(keyword))
-                        .map((category) => (
+                        .map((subcategory) => (
                             <div
                                 className="alert alert-info"
-                                key={category._id}
+                                key={subcategory._id}
                             >
-                                {category.name}{' '}
+                                {subcategory.name}{' '}
                                 <span
-                                    onClick={() => handleRemove(category.slug)}
+                                    onClick={() =>
+                                        handleRemove(subcategory.slug)
+                                    }
                                     className="btn btn-sm float-end"
                                 >
                                     <DeleteOutlined className="text-danger" />
                                 </span>{' '}
-                                <Link to={`/admin/category/${category.slug}`}>
+                                <Link
+                                    to={`/admin/subcategory/${subcategory.slug}`}
+                                >
                                     <span className="btn btn-sm float-end">
                                         <EditOutlined className="text-warning" />
                                     </span>{' '}
@@ -114,4 +144,4 @@ const CategoryCreate = () => {
     );
 };
 
-export default CategoryCreate;
+export default SubcategoryCreate;
