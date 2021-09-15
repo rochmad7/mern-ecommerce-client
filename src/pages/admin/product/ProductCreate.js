@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import ProductCreateForm from '../../../components/forms/ProductCreateForm';
 import { getCategories, getSubcategories } from '../../../functions/category';
+import FileUpload from '../../../components/forms/FileUpload';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const initialState = {
     title: '',
@@ -25,6 +27,7 @@ const ProductCreate = () => {
     const [values, setValues] = useState(initialState);
     const [subcategoryOptions, setSubcategoryOptions] = useState([]);
     const [showSubcategory, setShowSubcategory] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const { user } = useSelector((state) => ({ ...state }));
 
@@ -34,7 +37,7 @@ const ProductCreate = () => {
 
     const loadCategories = () =>
         getCategories().then((category) =>
-            setValues({ ...values, categories: category.data }),
+            setValues({ ...values, categories: category.data })
         );
 
     const handleSubmit = (e) => {
@@ -68,14 +71,26 @@ const ProductCreate = () => {
     };
 
     return (
-        <div className='container-fluid'>
-            <div className='row'>
-                <div className='col-md-2'>
+        <div className="container-fluid">
+            <div className="row">
+                <div className="col-md-2">
                     <AdminNav />
                 </div>
-                <div className='col-md-10'>
-                    <h4>Create Product</h4>
+                <div className="col-md-10">
+                    {loading ? (
+                        <LoadingOutlined className="text-danger h1" />
+                    ) : (
+                        <h4>Create Product</h4>
+                    )}
                     <hr />
+                    <div className="p-3">
+                        {' '}
+                        <FileUpload
+                            values={values}
+                            setValues={setValues}
+                            setLoading={setLoading}
+                        />
+                    </div>
                     <ProductCreateForm
                         handleSubmit={handleSubmit}
                         handleChange={handleChange}
