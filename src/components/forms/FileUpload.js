@@ -41,7 +41,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                                     images: allUploadedFiles,
                                 });
                             })
-                            .catch((err) => {
+                            .catch(() => {
                                 setLoading(false);
                                 console.log(
                                     'Upload images to cloudinary failed'
@@ -62,7 +62,7 @@ const FileUpload = ({ values, setValues, setLoading }) => {
                 { public_id },
                 { headers: { authtoken: user ? user.token : '' } }
             )
-            .then((res) => {
+            .then(() => {
                 setLoading(false);
                 const { images } = values;
                 let filteredImages = images.filter((image) => {
@@ -81,10 +81,9 @@ const FileUpload = ({ values, setValues, setLoading }) => {
             <div className="row mb-3">
                 {values.images &&
                     values.images.map((image) => (
-                        <div className="col-2">
+                        <div className="col-2" key={image.public_id}>
                             <Badge
                                 count="X"
-                                key={image.public_id}
                                 onClick={() =>
                                     handleImageRemove(image.public_id)
                                 }
