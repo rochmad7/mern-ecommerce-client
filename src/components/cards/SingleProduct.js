@@ -5,11 +5,14 @@ import { Link } from 'react-router-dom';
 import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import ProductListItems from './ProductListItems';
+import RatingModal from '../modal/RatingModal';
+import { showAverage } from '../../functions/rating';
+import StarRatings from 'react-star-ratings';
 
 const { TabPane } = Tabs;
 
-const SingleProduct = ({ product }) => {
-    const { title, images, description } = product;
+const SingleProduct = ({ product, onStarClick, star }) => {
+    const { title, images, description, _id } = product;
 
     return (
         <>
@@ -52,6 +55,11 @@ const SingleProduct = ({ product }) => {
             </div>
             <div className="col-md-5">
                 <h1 className="bg-info p-3">{title}</h1>
+                {product && product.ratings && product.ratings.length > 0 ? (
+                    showAverage(product)
+                ) : (
+                    <div className="text-center">No ratings yet</div>
+                )}
                 <Card
                     actions={[
                         <>
@@ -63,6 +71,26 @@ const SingleProduct = ({ product }) => {
                             <br />
                             Add to Wishlist
                         </Link>,
+                        <RatingModal>
+                            <StarRatings
+                                name={_id}
+                                numberOfStars={5}
+                                rating={star}
+                                changeRating={onStarClick}
+                                isSelectable={true}
+                                starRatedColor="red"
+                            />
+                            {/*<Rating*/}
+                            {/*    onClick={() => onStarClick(_id, star)}*/}
+                            {/*    ratingValue={star}*/}
+                            {/*    fillColor="red"*/}
+                            {/*/>*/}
+                            {/*<Rate*/}
+                            {/*    value={star}*/}
+                            {/*    allowHalf={true}*/}
+                            {/*    onChange={(value) => onStarClick(value, _id)}*/}
+                            {/*/>*/}
+                        </RatingModal>,
                     ]}
                 >
                     <ProductListItems product={product} />

@@ -16,13 +16,23 @@ const Login = ({ history }) => {
     const { user } = useSelector((state) => ({ ...state }));
 
     const roleBaseRedirect = (res) => {
-        if (res.data.role === 'admin') history.push('/admin/dashboard');
-        else history.push('/user/history');
+        let intended = history.location.state;
+        if (intended) {
+            history.push(intended.from);
+        } else {
+            if (res.data.role === 'admin') history.push('/admin/dashboard');
+            else history.push('/user/history');
+        }
     };
 
     useEffect(() => {
-        if (user && user.token) history.push('/');
-    }, [user,history]);
+        let intended = history.location.state;
+        if (intended) {
+            return;
+        } else {
+            if (user && user.token) history.push('/');
+        }
+    }, [user, history]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

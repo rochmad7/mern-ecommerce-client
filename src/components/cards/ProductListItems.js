@@ -36,6 +36,7 @@ const ProductListItems = ({ product }) => {
                         <Link
                             to={`/subcategory/${subcategory.slug}`}
                             className="float-end"
+                            key={subcategory._id}
                         >
                             &nbsp;{subcategory.name},
                         </Link>
