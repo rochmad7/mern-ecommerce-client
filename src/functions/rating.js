@@ -12,7 +12,7 @@ export const showAverage = (product) => {
         let totalReduced = total.reduce((prev, next) => prev + next, 0);
         let highest = length * 5;
         let result = (totalReduced * 5) / highest;
-        console.log(result);
+        // console.log(result);
 
         return (
             <div className="text-center pt-1 pb-3">

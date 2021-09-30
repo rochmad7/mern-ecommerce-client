@@ -27,6 +27,8 @@ import ProductCreate from './pages/admin/product/ProductCreate';
 import AllProducts from './pages/admin/product/AllProducts';
 import ProductUpdate from './pages/admin/product/ProductUpdate';
 import Product from './pages/Product';
+import CategoryHome from './pages/category/CategoryHome';
+import SubcategoryHome from './pages/subcategory/SubcategoryHome';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -62,63 +64,69 @@ const App = () => {
             <Header />
             <ToastContainer />
             <Switch>
-                <Route exact path='/' component={Home} />
-                <Route exact path='/login' component={Login} />
-                <Route exact path='/register' component={Register} />
+                <Route exact path="/" component={Home} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
                 <Route
                     exact
-                    path='/register/complete'
+                    path="/register/complete"
                     component={RegisterComplete}
                 />
                 <Route
                     exact
-                    path='/forgot/password'
+                    path="/forgot/password"
                     component={ForgotPassword}
                 />
-                <UserRoute exact path='/user/history' component={History} />
-                <UserRoute exact path='/user/password' component={Password} />
-                <UserRoute exact path='/user/wishlist' component={Wishlist} />
+                <UserRoute exact path="/user/history" component={History} />
+                <UserRoute exact path="/user/password" component={Password} />
+                <UserRoute exact path="/user/wishlist" component={Wishlist} />
                 <AdminRoute
                     exact
-                    path='/admin/dashboard'
+                    path="/admin/dashboard"
                     component={AdminDashboard}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/category'
+                    path="/admin/category"
                     component={CategoryCreate}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/category/:slug'
+                    path="/admin/category/:slug"
                     component={CategoryUpdate}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/subcategory'
+                    path="/admin/subcategory"
                     component={SubcategoryCreate}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/subcategory/:slug'
+                    path="/admin/subcategory/:slug"
                     component={SubcategoryUpdate}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/product'
+                    path="/admin/product"
                     component={ProductCreate}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/products'
+                    path="/admin/products"
                     component={AllProducts}
                 />
                 <AdminRoute
                     exact
-                    path='/admin/product/:slug'
+                    path="/admin/product/:slug"
                     component={ProductUpdate}
                 />
-                <Route exact path='/product/:slug' component={Product} />
+                <Route exact path="/product/:slug" component={Product} />
+                <Route exact path="/category/:slug" component={CategoryHome} />
+                <Route
+                    exact
+                    path="/subcategory/:slug"
+                    component={SubcategoryHome}
+                />
             </Switch>
         </>
     );
