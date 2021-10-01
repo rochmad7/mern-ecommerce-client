@@ -18,7 +18,12 @@ const SubcategoryList = () => {
 
     const showSubcategories = () => {
         return subcategories.map((subcategory) => (
-            <Button type="primary" className="col m-3" size="large">
+            <Button
+                type="primary"
+                className="col m-3"
+                size="large"
+                key={subcategory._id}
+            >
                 <Link to={`/subcategory/${subcategory.slug}`}>
                     {subcategory.name}
                 </Link>

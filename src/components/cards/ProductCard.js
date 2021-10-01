@@ -6,7 +6,7 @@ import { EyeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { showAverage } from '../../functions/rating';
 
 const ProductCard = ({ product }) => {
-    const { images, title, description, slug } = product;
+    const { images, title, description, slug, price } = product;
 
     return (
         <>
@@ -35,13 +35,13 @@ const ProductCard = ({ product }) => {
                         Product
                     </Link>,
                     <>
-                        <ShoppingCartOutlined className="text-danger" />{' '}
-                        <br /> Add to Cart
+                        <ShoppingCartOutlined className="text-danger" /> <br />{' '}
+                        Add to Cart
                     </>,
                 ]}
             >
                 <Meta
-                    title={title}
+                    title={`${title} - $${price}`}
                     description={`${
                         description && description.substring(0, 90)
                     }...`}

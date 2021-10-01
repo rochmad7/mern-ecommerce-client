@@ -18,7 +18,12 @@ const CategoryList = () => {
 
     const showCategories = () => {
         return categories.map((category) => (
-            <Button type="primary" className="col m-3" size="large">
+            <Button
+                type="primary"
+                className="col m-3"
+                size="large"
+                key={category._id}
+            >
                 <Link to={`/category/${category.slug}`}>{category.name}</Link>
             </Button>
         ));

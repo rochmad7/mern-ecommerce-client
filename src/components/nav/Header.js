@@ -4,12 +4,14 @@ import {
     HomeOutlined,
     LogoutOutlined,
     SettingOutlined,
+    ShoppingOutlined,
     UserAddOutlined,
     UserOutlined,
 } from '@ant-design/icons';
 import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase';
 import { useDispatch, useSelector } from 'react-redux';
+import Search from '../forms/Search';
 
 const { SubMenu, Item } = Menu;
 
@@ -39,12 +41,18 @@ const Header = () => {
             <Item key="home" icon={<HomeOutlined />}>
                 <Link to="/">Home</Link>
             </Item>
+            <Item key="shop" icon={<ShoppingOutlined />}>
+                <Link to="/shop">Shop</Link>
+            </Item>
+            <Item key="search">
+                <Search />
+            </Item>
             {user && (
                 <SubMenu
                     key="SubMenu"
                     icon={<SettingOutlined />}
                     title={user.email && user.email.split('@')[0]}
-                    style={{ marginLeft: 'auto' }}
+                    className="ms-auto"
                 >
                     {user && user.role === 'subscriber' && (
                         <Item>
@@ -66,7 +74,7 @@ const Header = () => {
                 <Item
                     key="register"
                     icon={<UserAddOutlined />}
-                    style={{ marginLeft: 'auto' }}
+                    className="ms-auto"
                 >
                     <Link to="/register">Register</Link>
                 </Item>
