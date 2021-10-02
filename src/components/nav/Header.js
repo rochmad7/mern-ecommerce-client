@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Menu } from 'antd';
+import { Badge, Menu } from 'antd';
 import {
     HomeOutlined,
     LogoutOutlined,
     SettingOutlined,
+    ShoppingCartOutlined,
     ShoppingOutlined,
     UserAddOutlined,
     UserOutlined,
@@ -19,7 +20,7 @@ const Header = () => {
     const [current, setCurrent] = useState('home');
 
     let dispatch = useDispatch();
-    let { user } = useSelector((state) => ({ ...state }));
+    let { user, cart } = useSelector((state) => ({ ...state }));
 
     let history = useHistory();
 
@@ -43,6 +44,13 @@ const Header = () => {
             </Item>
             <Item key="shop" icon={<ShoppingOutlined />}>
                 <Link to="/shop">Shop</Link>
+            </Item>
+            <Item key="cart" icon={<ShoppingCartOutlined />}>
+                <Link to="/cart">
+                    <Badge count={cart.length} offset={[9, 0]}>
+                        Cart
+                    </Badge>
+                </Link>
             </Item>
             <Item key="search">
                 <Search />

@@ -30,6 +30,8 @@ import Product from './pages/Product';
 import CategoryHome from './pages/category/CategoryHome';
 import SubcategoryHome from './pages/subcategory/SubcategoryHome';
 import Shop from './pages/Shop';
+import Cart from './pages/Cart';
+import SideDrawer from './components/drawer/SideDrawer';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -63,6 +65,7 @@ const App = () => {
     return (
         <>
             <Header />
+            <SideDrawer />
             <ToastContainer />
             <Switch>
                 <Route exact path="/" component={Home} />
@@ -129,6 +132,7 @@ const App = () => {
                     component={SubcategoryHome}
                 />
                 <Route exact path="/shop" component={Shop} />
+                <Route exact path="/cart" component={Cart} />
             </Switch>
         </>
     );

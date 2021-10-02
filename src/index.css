@@ -3,6 +3,11 @@
     height: 500px;
     object-fit: cover;
 }
+
 html, body {
     overflow-x: hidden;
+}
+
+.pointer {
+    cursor: pointer;
 }
