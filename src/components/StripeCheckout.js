@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import { createPaymentIntent } from '../functions/stripe';
 import { Link } from 'react-router-dom';
 import { Card } from 'antd';
 import { CheckOutlined, DollarOutlined } from '@ant-design/icons';
+import { createOrder, emptyUserCart } from '../functions/user';
 
 const StripeCheckout = () => {
+    let dispatch = useDispatch();
     const { user, coupon } = useSelector((state) => ({ ...state }));
 
     const [succeeded, setSucceeded] = useState(false);
@@ -49,6 +51,21 @@ const StripeCheckout = () => {
             setProcessing(false);
         } else {
             // console.log(JSON.stringify(payload, null, 4));
+            createOrder(payload, user.token).then((res) => {
+                if (res.data.ok) {
+                    if (typeof window !== 'undefined')
+                        localStorage.removeItem('cart');
+                    dispatch({
+                        type: 'ADD_TO_CART',
+                        payload: [],
+                    });
+                    dispatch({
+                        type: 'COUPON_APPLIED',
+                        payload: false,
+                    });
+                    emptyUserCart(user.token);
+                }
+            });
             setError(null);
             setSucceeded(true);
             setProcessing(false);
