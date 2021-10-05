@@ -5,6 +5,9 @@ import { getUserOrders } from '../../functions/user';
 import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
 import ShowPaymentInfo from '../../components/cards/ShowPaymentInfo';
 
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import Invoice from '../../components/order/Invoice';
+
 const History = () => {
     const [orders, setOrders] = useState([]);
     const { user } = useSelector((state) => ({ ...state }));
@@ -19,6 +22,16 @@ const History = () => {
             setOrders(res.data);
         });
 
+    const showPDFDownloadLink = (order) => (
+        <PDFDownloadLink
+            document={<Invoice order={order} />}
+            fileName="Invoice.pdf"
+            className="btn btn-primary"
+        >
+            Download PDF
+        </PDFDownloadLink>
+    );
+
     const showEachOrders = () =>
         orders.map((order, i) => {
             return (
@@ -26,9 +39,7 @@ const History = () => {
                     <ShowPaymentInfo order={order} />
                     {showOrderInTable(order)}
                     <div className="row">
-                        <div className="col">
-                            <p>PDF download</p>
-                        </div>
+                        <div className="col">{showPDFDownloadLink(order)}</div>
                     </div>
                 </div>
             );
